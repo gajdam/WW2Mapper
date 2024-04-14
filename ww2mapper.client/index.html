@@ -1,13 +1,45 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WW2Mapper</title>
+    <link rel="stylesheet" href="src/styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="left-corner">
+            <button class="about-btn">About us</button>
+        </div>
+        <div class="right-corner">
+            <button class="sign-btn">Sign in</button>
+            <button class="sign-btn">Sign up</button>
+            <!-- 
+            If user is logged in, display "Sign out" button instead
+            <button class="sign-btn">Sign out</button>
+            -->
+        </div>
+    </header>
+
+    <main>
+        <h1 class="app-title">WW2Mapper</h1>
+        <input type="text" class="search-bar" placeholder="Search...">
+
+        <a href="app.html" class="open-map-btn">Open Map</a>
+
+        <div class="recent-places">
+            <!-- Sample recently popular places -->
+            <div class="place"></div>
+            <div class="place"></div>
+            <div class="place"></div>
+        </div>
+    </main>
+
+    <footer>
+        <button class="settings-btn">Settings <i class="fas fa-cog"></i></button>
+    </footer>
+</body>
+
 </html>
