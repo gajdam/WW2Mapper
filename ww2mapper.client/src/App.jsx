@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import './App.css';
 import MapComponent from './Map';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 function App() {
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -9,8 +10,15 @@ function App() {
         setMenuOpen(!menuOpen);
     };
 
+    const goBack = () => {
+        window.history.back();
+    };
+
     return (
         <div>
+            <div id="backButton" onClick={goBack}>
+                <FontAwesomeIcon icon={faArrowLeft} /> 
+            </div>
             <div id="map" style={{ position: 'relative' }}>
                 <MapComponent />
                 {menuOpen && <FiltersMenu />}
@@ -23,7 +31,6 @@ function App() {
 }
 
 function FiltersMenu() {
-    // Add your filter components here
     return (
         <div id="filtersMenu">
             {/* Filter components */}

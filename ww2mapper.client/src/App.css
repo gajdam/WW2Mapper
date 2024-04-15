@@ -35,3 +35,17 @@
     flex-direction: column;
     color: #ddd1d1;
 }
+
+#backButton {
+    position: absolute;
+    top: 10px; 
+    left: 10px; 
+    z-index: 1000;
+    cursor: pointer;
+}
+
+#backButton svg {
+    width: 20px; /* Dostosuj rozmiar ikony */
+    height: auto;
+    color: #ddd1d1; /* Dostosuj kolor ikony */
+}
