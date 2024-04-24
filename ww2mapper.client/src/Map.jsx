@@ -2,52 +2,43 @@ import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import './App.css';
 
-function MapComponent({ location }) {
+function MapComponent({ location, pins }) {
     const mapRef = useRef(null);
 
     useEffect(() => {
+        // Initialize map
+        const center = location ? [location.lat, location.lng] : [50, 10];
         if (!mapRef.current) {
-            mapRef.current = L.map('map', {zoomControl: false}).setView([50, 10], 5); // Default to middle of Western Europe
+            mapRef.current = L.map('map', {zoomControl: false}).setView(center, 8);
+
+            // Add base layer
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: 'abcd',
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                 maxZoom: 10
             }).addTo(mapRef.current);
         }
-    }, []);
 
-    useEffect(() => {
-        if (location) {
-            fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(location)}&key=your-google-api-key`)
-                .then(response => response.json())
-                .then(data => {
-                    const { lat, lng } = data.results[0].geometry.location;
-                    mapRef.current.setView([lat, lng], 13);
-                });
-        }
-    }, [location]);
-
-    useEffect(() => {
-        // Resize the map when the window is resized
-        const resizeMap = () => {
-            if (mapRef.current) {
-                mapRef.current.invalidateSize();
-            }
-        };
-
-        window.addEventListener('resize', resizeMap);
-
-        return () => {
-            window.removeEventListener('resize', resizeMap);
-        };
-    }, []);
+        // Add markers
+        pins.forEach(pin => {
+            L.marker([pin.lat, pin.lng]).addTo(mapRef.current);
+        });
+    }, [location, pins]);
 
     return <div id="map" style={{ width: '100%', height: '100vh' }}></div>;
 }
 
-
-MapComponent.propTypes = { location: PropTypes.string };
+MapComponent.propTypes = {
+    location: PropTypes.shape({
+        lat: PropTypes.number.isRequired,
+        lng: PropTypes.number.isRequired
+    }),
+    pins: PropTypes.arrayOf(
+        PropTypes.shape({
+            lat: PropTypes.number.isRequired,
+            lng: PropTypes.number.isRequired
+        })
+    ).isRequired
+};
 
 export default MapComponent;
