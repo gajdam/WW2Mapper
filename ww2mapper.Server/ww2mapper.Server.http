@@ -1,0 +1,6 @@
+@ww2mapper.Server_HostAddress = http://localhost:5023
+
+GET {{ww2mapper.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
