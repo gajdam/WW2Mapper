@@ -6,16 +6,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 function App() {
     const [menuOpen, setMenuOpen] = useState(false);
     
-    const location = {
-        lat: 51.505,
-        lng: -0.09
-    };
-
-    const pins = [
-        { lat: 51.5, lng: -0.09 },
-        { lat: 51.6, lng: -0.1 },
-        { lat: 51.7, lng: -0.11 }
-    ];
+    const location = 'Poland';
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -32,12 +23,10 @@ function App() {
             </div>
             <div id="map" style={{ position: 'relative' }}>
                 {/* <MapComponent/> */}
-                <MapComponent location={location} pins={pins} />
+                <MapComponent location={location}/>
                 {menuOpen && <FiltersMenu />}
                 <button id="menuButton" onClick={toggleMenu}>Filters</button>
             </div>
-            <h1 id="tabelLabel">Google places</h1>
-            <p>This component demonstrates fetching data from the server.</p>
         </div>
     );
 }

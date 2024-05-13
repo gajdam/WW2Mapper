@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const Locations = () => {
+export const Locations = () => {
     const [locations, setLocations] = useState([]);
-    const [locationQuery, setLocationQuery] = useState('WW2 places, France');
 
-    const handleSearch = async () => {
+    const handleSearch = async (query) => {
     try {
-        const query = "ww2 places, Poland"
-        const response = await axios.post(`https://localhost:7131/GetPlaceByQuery/${query}`);
+        const textQuery = "ww2 places, " + query;
+        const response = await axios.post(`https://localhost:7131/GetPlaceByQuery/${textQuery}`);
         console.log('Response:', response.data.places);
         if (Array.isArray(response.data.places)) {
             const combinedData = [];
@@ -41,37 +40,5 @@ const Locations = () => {
         console.error('Error:', error);
     }
 };
-    return (
-        <div>
-            <input
-                type="text"
-                value={locationQuery}
-                onChange={e => setLocationQuery(e.target.value)}
-            />
-            <button onClick={handleSearch}>Search</button>
-            <ul>
-                {locations.map((place, index) => (
-                    <li key={index}>
-                        <p>{place.displayName.text}</p>
-                        <p>{place.formattedAddress}</p>
-                        {place.geocode && (
-                            <>
-                                <p>Latitude: {place.geocode.lat}</p>
-                                <p>Longitude: {place.geocode.lng}</p>
-                            </>
-                        )}
-                        <p>
-                            {place.types.includes('historical_landmark') && 'Historical Landmark'}
-                            {place.types.includes('point_of_interest') && 'Point of Interest'}
-                            {place.types.includes('establishment') && 'Establishment'}
-                            {place.types.includes('tourist_attraction') && 'Tourist Attraction'}
-                            {place.types.includes('museum') && 'Museum'}
-                        </p>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+    return { locations, handleSearch };
 };
-
-export default Locations;
