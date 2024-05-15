@@ -13,7 +13,7 @@ function App() {
     const [locations, setLocations] = useState([]);
     const [filteredLocations, setFilteredLocations] = useState([]);
 
-    const location = 'Poland';
+    const location = 'Poland'; // here will be passed the user input
 
     const { locations: apiLocations, handleSearch } = Locations(); // Renamed locations to apiLocations
 

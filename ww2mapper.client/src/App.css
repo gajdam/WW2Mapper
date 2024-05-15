@@ -36,6 +36,21 @@
     color: #ddd1d1;
 }
 
+#locationInfo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 33.33vh; /* 1/3 of the viewport height */
+    padding: 20px;
+    background-color: var(--primary-color); 
+    color: #ddd1d1;
+    border-radius: 30px 30px 0 0; 
+    box-sizing: border-box;
+    overflow: auto;
+    z-index: 999; 
+}
+
 #backButton {
     position: absolute;
     top: 10px; 

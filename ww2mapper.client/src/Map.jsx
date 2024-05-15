@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import LocationInfoTab from './LocationInfoTab';
 
 function MapComponent({ locations, defaultLocation }) {
     const mapRef = useRef(null);
-    const [markers, setMarkers] = useState([]); // Added this line
+    const [markers, setMarkers] = useState([]);
+    const [selectedLocation, setSelectedLocation] = useState(null);
 
     useEffect(() => {
         // Initialize map
@@ -31,14 +33,24 @@ function MapComponent({ locations, defaultLocation }) {
         const newMarkers = [];
         if (locations && locations.length > 0) {
             locations.forEach(location => {
-                const marker = L.marker([location.geocode.lat, location.geocode.lng]).addTo(mapRef.current);
+                const marker = L.marker([location.geocode.lat, location.geocode.lng])
+                .bindPopup(`<b>${location.displayName.text}</b><br>${location.formattedAddress}`)
+                .on('mouseover', function() {this.openPopup();})
+                .on('mouseout', function() {this.closePopup();})
+                .on('click', function() {setSelectedLocation(location);})
+                .addTo(mapRef.current);
                 newMarkers.push(marker);
             });
         }
         setMarkers(newMarkers); // Update the markers state
     }, [defaultLocation, locations]);
 
-    return <div id="map" style={{ width: '100%', height: '100vh' }}></div>;
+    return (
+        <div style={{ width: '100%', height: '100vh' }}>
+            <div id="map" style={{ width: '100%', height: '80vh' }}></div>
+            <LocationInfoTab location={selectedLocation} onClose={ ()=>setSelectedLocation(null)}/> {/* Use the new component */}
+        </div>
+    );
 }
 
 MapComponent.propTypes = {
