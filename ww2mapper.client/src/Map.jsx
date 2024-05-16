@@ -13,15 +13,15 @@ function MapComponent({ locations, defaultLocation }) {
         // Initialize map
         const center = defaultLocation ? [defaultLocation.lat, defaultLocation.lng] : [50, 10];
         if (!mapRef.current) {
-            mapRef.current = L.map('map', {zoomControl: false}).setView(center, 8);
+            mapRef.current = L.map('map', {zoomControl: false}).setView(center, 10);
 
             // Add base layer
             L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                maxZoom: 10
+                maxZoom: 6
             }).addTo(mapRef.current);
         } else {
-            mapRef.current.setView(center, 8);
+            mapRef.current.setView(center, 10);
         }
 
         // Remove old markers

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function FiltersMenu({ locations, setFilteredLocations }) {
+function FiltersMenu({ locations, setFilteredLocations, isOpen }) {
     const [filters, setFilters] = useState({
         "war footprint": true,
         "museum": true,
@@ -22,7 +22,7 @@ function FiltersMenu({ locations, setFilteredLocations }) {
     };
 
     return (
-        <div id="filtersMenu">
+        <div id="filtersMenu" className={isOpen ? 'open' : ''}>
             {Object.keys(filters).map((filterKey) => (
                 <div key={filterKey}>
                     <input
@@ -51,7 +51,8 @@ FiltersMenu.propTypes = {
         }).isRequired,
         locationType: PropTypes.string.isRequired
     })).isRequired,
-    setFilteredLocations: PropTypes.func.isRequired
+    setFilteredLocations: PropTypes.func.isRequired,
+    isOpen: PropTypes.bool.isRequired
 };
 
 export default FiltersMenu;

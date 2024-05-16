@@ -51,7 +51,7 @@ function App() {
             </div>
             <div id="map" style={{ position: 'relative' }}>
                 <MapComponent defaultLocation={defaultLocation} locations={filteredLocations}/>
-                {menuOpen && <FiltersMenu locations={locations} setFilteredLocations={setFilteredLocations} />}
+                <FiltersMenu locations={locations} setFilteredLocations={setFilteredLocations} isOpen={menuOpen}/>
                 <button id="menuButton" onClick={toggleMenu}>Filters</button>
             </div>
         </div>

@@ -19,15 +19,14 @@ function LocationInfoTab({ location, onClose }) {
         };
     }, [onClose]);
 
-    if (!location) {
-        return null;
-    }
-
     return (
-        <div id="locationInfo" ref={locationInfoRef}>
-            <h2>{location.displayName.text}</h2>
-            <p>{location.formattedAddress}</p>
-            <p>Location type: {location.locationType}</p>
+        <div id="locationInfo" ref={locationInfoRef} className={location ? 'open' : ''}>
+            <div>{location && (
+                <>
+                    <h2>{location.displayName.text}</h2>
+                    <p>{location.formattedAddress}</p>
+                    <p>Location type: {location.locationType}</p> </>)}
+            </div>
         </div>
     );
 }
