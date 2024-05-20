@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ww2mapper.Server.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class PlacesController : ControllerBase
+    public class PlacesController : Controller
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly string? _apiKey;
