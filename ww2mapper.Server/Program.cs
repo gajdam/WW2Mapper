@@ -1,6 +1,9 @@
-using ww2mapper.Server.Models; 
-using Microsoft.EntityFrameworkCore; 
-using Pomelo.EntityFrameworkCore.MySql;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using ww2mapper.Server.Models;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +17,32 @@ builder.Services.AddSwaggerGen();
 // Add DbContext service.
 builder.Services.AddDbContext<WW2MapperContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))));
+
+// Add password hasher service.
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
+// Add authentication services.
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Secret"]);
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(key)
+    };
+});
 
 // Add CORS services.
 builder.Services.AddCors(options =>
@@ -41,6 +70,7 @@ app.UseCors("AllowSpecificOrigin");
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
